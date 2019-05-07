@@ -39,7 +39,7 @@ heimdall:
         portNumber: 5432
         serverName: 127.0.0.1
         username: postgres
-        password: 123456
+        password: postgres
         runLiquibase: true
         sendStringParametersAsUnicode: false
     mongo:
@@ -95,7 +95,7 @@ spring:
             INDENT_OUTPUT: true
             WRITE-DATES-AS-TIMESTAMPS: false
     rabbitmq:
-        host: 127.0.0.1
+        host: 10.60.30.49
         port: 5672
         #virtual-host: dev
         requested-heartbeat: 10

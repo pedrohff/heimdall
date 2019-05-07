@@ -38,7 +38,7 @@ heimdall:
         portNumber: 5432
         serverName: 127.0.0.1
         username: postgres
-        password: 123456
+        password: postgres
         runLiquibase: true
         sendStringParametersAsUnicode: false
     mongo:
@@ -90,6 +90,9 @@ sentry:
         active: dev
 
 spring:
+    application:
+        name: heimdall
+        version: v2
     pid:
         fail-on-write-error: false
         file: heimdall.pid
@@ -107,7 +110,7 @@ spring:
             INDENT_OUTPUT: true
             WRITE-DATES-AS-TIMESTAMPS: false
     rabbitmq:
-        host: 127.0.0.1
+        host: 10.60.30.49
         port: 5672
         #virtual-host: dev
         requested-heartbeat: 10
@@ -149,7 +152,7 @@ zuul:
         parameter: debug
         request: false
     filter:
-        root: /tmp/interceptors
+        root: /tmp/interceptores
         interval: 8
     host:
         socket-timeout-millis: 40000
@@ -158,3 +161,8 @@ zuul:
 security:
     basic:
         enabled: false
+        
+azure-logger:
+    enabled: true
+    sharedKey: sh5jt64HoGYyOUQMncazN+F8Ahw18ytkRed+xFcOu3rypbcUAmzVi9iNDtAD6Q12svamBIYmnfJxBUNCQrAoHQ==
+    workspaceId: 8e2ea029-e8b3-4b36-9d87-1b0660a70122

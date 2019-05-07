@@ -36,6 +36,7 @@ import com.fasterxml.jackson.databind.annotation.JsonSerialize;
 import lombok.Data;
 import lombok.Getter;
 import lombok.extern.slf4j.Slf4j;
+import m.io.jo.azureloggerstarter.AzureLogger;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.http.HttpStatus;
@@ -129,6 +130,9 @@ public class Trace {
      
      private String version;
      
+     @JsonIgnore
+     private AzureLogger azureLogger;
+     
      public Trace() {
     	 
      }
@@ -179,10 +183,12 @@ public class Trace {
       * @param printMongo
       * @param printLogstash
       * @param version
+      * @param azureLogger
       */
-     public Trace(boolean printAllTrace, String profile, ServletRequest servletRequest, boolean printMongo, boolean printLogstash, String version) {
+     public Trace(boolean printAllTrace, String profile, ServletRequest servletRequest, boolean printMongo, boolean printLogstash, String version, AzureLogger azureLogger) {
     	 this(printAllTrace, profile, servletRequest, printMongo, printLogstash);
     	 this.version = version;
+    	 this.azureLogger = azureLogger;
      }
 
 	/**
@@ -259,11 +265,13 @@ public class Trace {
      private void prepareLog(Integer statusCode) throws JsonProcessingException {
 
           String url = Objects.nonNull(getUrl()) ? getUrl() : "";
+          ObjectMapper mapper = new ObjectMapper();
 
           if (printAllTrace) {
 
                if (isInfo(statusCode)) {
 
+                    azureLogger.pushLogsToAzure(mapper.writeValueAsString(this));
                     log.info(" [HEIMDALL-TRACE] - {} ", new ObjectMapper().writeValueAsString(this));
                } else if (isWarn(statusCode)) {
 

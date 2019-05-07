@@ -31,6 +31,7 @@ import javax.servlet.ServletResponse;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 
+import m.io.jo.azureloggerstarter.AzureLogger;
 import org.apache.commons.lang.exception.ExceptionUtils;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Value;
@@ -69,6 +70,9 @@ public class TraceFilter implements Filter {
 	
 	@Autowired
 	private BuildProperties buildProperties;
+	
+	@Autowired
+	private AzureLogger azureLogger;
 
 	@Override
 	public void destroy() {
@@ -84,7 +88,7 @@ public class TraceFilter implements Filter {
 		try {
 
 			trace = TraceContextHolder.getInstance().init(prop.getTrace().isPrintAllTrace(), profile, request,
-			prop.getMongo().getEnabled(), prop.getLogstash().getEnabled(), buildProperties.getVersion());
+			prop.getMongo().getEnabled(), prop.getLogstash().getEnabled(), buildProperties.getVersion(), azureLogger);
 			if (shouldDisableTrace(request)) {
 				trace.setShouldPrint(false);
 			}
